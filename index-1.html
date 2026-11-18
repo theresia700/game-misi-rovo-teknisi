@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Misi Robo-Teknisi: Koding dan Kecerdasan Artifisial</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;height:100vh;display:grid;place-items:center;background:#0b1829;font-family:'Segoe UI',Tahoma,sans-serif}
+#stage{position:relative;display:flex;flex-direction:column;background:#eaf1f8;color:#10253d;overflow:hidden;font-size:16px}
+#hd{display:flex;align-items:center;gap:.6em;height:3.2em;padding:0 1em;background:#10253d;color:#fff;flex:none}
+.t{font-size:1.15em}.sp{flex:1}
+.pill{background:#1d3a5c;padding:.3em .7em;border-radius:1em;font-size:.85em}
+#mn{flex:1;min-height:0;overflow:auto;padding:.9em 1.8em;background-image:linear-gradient(#dbe6f2 1px,transparent 1px),linear-gradient(90deg,#dbe6f2 1px,transparent 1px);background-size:2em 2em}
+h1{font-size:2.6em;margin:0}h2{margin:.2em 0;font-size:1.4em}h3{margin:.3em 0;font-size:1em}p{margin:.4em 0;line-height:1.45}
+.panel{background:#fff;border:.12em solid #10253d;border-radius:.5em;padding:.6em 1em;margin-bottom:.6em}
+.btn{font:inherit;font-size:.95em;font-weight:600;padding:.55em 1em;min-height:2.4em;border:.12em solid #10253d;background:#fff;color:#10253d;border-radius:.5em;cursor:pointer}
+.btn.y{background:#ffcb2e}.btn.s{padding:.3em .8em;min-height:0;font-size:.85em}.btn.big{font-size:1.2em;padding:.7em 1.4em}
+.btn:hover:not(:disabled){filter:brightness(.93)}.btn:disabled{opacity:.5;cursor:not-allowed}
+.chip{display:block;width:100%;text-align:left;margin:.3em 0;padding:.5em .8em;font:inherit;font-size:.95em;background:#fff;border:.12em solid #1f5fbf;color:#10253d;border-radius:.5em;cursor:pointer;min-height:2.4em}
+.chip.sel{background:#cfe0ff}.chip.ok{background:#c9f0d6;border-color:#1b8a4b}.chip.bad{background:#ffd6d1;border-color:#c0392b}
+.chip.in{background:#e3eeff;margin:0;display:inline-block;width:auto;min-height:2em;padding:.3em .6em}.chip:disabled{opacity:.6;cursor:default}
+.slot{display:flex;align-items:center;gap:.5em;padding:.25em .6em;margin:.25em 0;min-height:2.4em;border:.12em dashed #6b86a6;border-radius:.5em;background:#fff}
+.slot.ok{border:.12em solid #1b8a4b;background:#e6f7ec}.slot.bad{border:.12em solid #c0392b;background:#fdeceb}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:1.2em}
+pre,code{font-family:Consolas,monospace}pre{background:#10253d;color:#fff;padding:.6em 1em;border-radius:.5em;margin:.4em 0;line-height:1.5}
+code{background:#eef4fb;padding:.1em .3em;border-radius:.3em}
+#fb{flex:none;display:flex;align-items:center;gap:1em;min-height:3.6em;padding:.5em 1.4em;font-weight:600;background:#dbe6f2}
+#fb span{flex:1}#fb.ok{background:#c9f0d6}#fb.bad{background:#ffd6d1}
+#ov{position:absolute;inset:0;background:rgba(16,37,61,.9);display:grid;place-items:center;z-index:5}#ov[hidden]{display:none}
+.box{background:#fff;padding:1.2em 2em;border-radius:.8em;max-width:38em}.box li{margin:.3em 0;line-height:1.4}
+.hero{display:grid;grid-template-columns:1.7fr 1fr;align-items:center;height:100%}.bot{font-size:9em;text-align:center}
+.q{font-weight:700;color:#1f5fbf;font-size:1.2em}
+.menu{display:grid;grid-template-columns:repeat(5,1fr);gap:.8em;margin-top:.8em}
+.mc{font:inherit;display:flex;flex-direction:column;gap:.5em;text-align:left;padding:1em;min-height:9em;background:#fff;border:.15em solid #1f5fbf;border-radius:.6em;color:#10253d;cursor:pointer}
+.mc:disabled{border-color:#8a9bb0;background:#e1e8f0;cursor:not-allowed}.mc.dn{border-color:#1b8a4b;background:#e6f7ec}
+.cnt{color:#35557a;font-weight:600}.opts{max-width:40em}
+.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:.2em;background:#10253d;padding:.2em;border-radius:.4em}
+.cell{height:4em;background:#fff;display:grid;place-items:center;font-size:1.1em;border-radius:.2em}.cell.goal{background:#fff3c4}
+.rb{font-size:1.3em}
+.plot{position:relative;background:#fff;border:.12em solid #10253d;border-radius:.5em;padding:.4em 1em .2em;margin:.3em 0}
+.lbl{font-size:.85em;font-weight:600;margin-top:.2em}.tr{position:relative;height:2em;border-bottom:.1em solid #9db1c8}
+.dot{position:absolute;top:.15em;transform:translateX(-50%);width:1.5em;height:1.5em;border-radius:50%;color:#fff;font-style:normal;font-size:.8em;display:grid;place-items:center;font-weight:700}
+.dot.g{background:#1b8a4b}.dot.d{background:#c0392b}.dot.x{outline:.2em solid #10253d}
+.thl{position:absolute;top:0;bottom:1.4em;width:.25em;margin-left:-.12em;background:#ffcb2e;border:.08em solid #10253d}
+.ax{display:flex;justify-content:space-between;font-size:.8em;color:#35557a}
+input[type=range]{width:100%;height:2em;accent-color:#1f5fbf}
+.stat{font-weight:700;font-size:1.05em}
+</style>
+</head>
+<body>
+<div id="stage">
+ <header id="hd"></header>
+ <main id="mn"></main>
+ <div id="fb" class="i"></div>
+ <div id="ov" hidden></div>
+</div>
+<script>
+const $=s=>document.querySelector(s),A=[];
+const act=f=>{A.push(f);return `onclick="A[${A.length-1}]()"`};
+const st={scr:'home',lv:0,lives:3,pts:[0,0,0,0,0],done:[0,0,0,0,0]};
+const NAMES=['Urutan Algoritma','Tipe Data','Percabangan','Perulangan','Kecerdasan Artifisial'];
+const total=()=>st.pts.reduce((a,b)=>a+b,0);
+function fit(){const s=$('#stage'),w=Math.min(innerWidth,innerHeight*16/9);s.style.width=w+'px';s.style.height=w*9/16+'px';s.style.fontSize=w/60+'px'}
+addEventListener('resize',fit);
+let ac;function snd(ok){try{ac=ac||new AudioContext();const o=ac.createOscillator(),g=ac.createGain();o.connect(g);g.connect(ac.destination);o.type=ok?'sine':'square';o.frequency.value=ok?660:180;g.gain.value=.07;o.start();o.stop(ac.currentTime+(ok?.15:.3))}catch(e){}}
+function upd(){const lv=st.scr=='lv';$('#hd').innerHTML=`<b class=t>Misi Robo-Teknisi</b><span class=sp></span>`+(lv?`<span class=pill>Level ${st.lv+1} dari 5</span><span class=pill style="color:#ffb4ab">${'♥'.repeat(st.lives)}${'♡'.repeat(3-st.lives)} Nyawa</span>`:'')+`<span class=pill>Skor ${total()}</span><button class="btn s" ${act(()=>go('menu'))}>Menu</button><button class="btn s" ${act(guide)}>Panduan</button>`}
+function fb(m,k,b=[]){const f=$('#fb');f.className=k;f.innerHTML=`<span>${k=='ok'?'✔ ':k=='bad'?'✘ ':'ℹ '}${m}</span>`+b.map(x=>`<button class="btn y" ${act(x[1])}>${x[0]}</button>`).join('')}
+function miss(m){st.lives--;upd();snd(0);fb(m,'bad');if(st.lives<1)setTimeout(over,800)}
+function win(m){const p=Math.max(25,100-25*(3-st.lives)),last=st.lv==4;st.pts[st.lv]=Math.max(st.pts[st.lv],p);st.done[st.lv]=1;upd();snd(1);
+ fb(`${m} Level selesai: +${p} poin.`,'ok',[[last?'Lihat Hasil':'Level Berikutnya',()=>last?go('end'):start(st.lv+1)],['Menu',()=>go('menu')]])}
+function over(){const o=$('#ov');o.hidden=false;o.innerHTML=`<div class=box><h2>Nyawa habis</h2><p>Tenang, teknisi hebat belajar dari kesalahan. Ulangi level ini dengan strategi baru.</p><button class="btn y" ${act(()=>{o.hidden=true;start(st.lv)})}>Ulangi Level</button> <button class=btn ${act(()=>{o.hidden=true;go('menu')})}>Menu</button></div>`}
+function guide(){const o=$('#ov');o.hidden=false;o.innerHTML=`<div class=box><h2>Panduan Bermain</h2><ol><li>Selesaikan 5 misi berurutan: algoritma, tipe data, percabangan, perulangan, lalu kecerdasan artifisial.</li><li>Tiap level punya 3 nyawa. Jawaban salah mengurangi 1 nyawa. Nyawa habis berarti level diulang.</li><li>Skor tiap level maksimal 100. Setiap nyawa yang hilang mengurangi 25 poin.</li><li>Menu menampilkan peta misi. Level yang sudah selesai boleh dimainkan lagi kapan saja.</li><li>Baca kotak umpan balik di bagian bawah layar. Isinya petunjuk langkah berikutnya.</li></ol><button class="btn y" ${act(()=>o.hidden=true)}>Tutup Panduan</button></div>`}
+function go(s){st.scr=s;render()}
+function start(n){st.lv=n;st.lives=3;st.scr='lv';render()}
+function shell(t,k,b){$('#mn').innerHTML=`<h2>Misi ${st.lv+1}: ${t}</h2><div class=panel>${k}</div>${b}`}
+function render(){A.length=0;upd();$('#fb').style.display=st.scr=='lv'?'flex':'none';SC[st.scr]()}
+
+/* ---------- Level 1: urutan ---------- */
+function L1(){
+ const C=['Ambil paket dari ban berjalan','Pindai label barcode','Timbang paket','Tempel label tujuan','Masukkan ke kotak tujuan'],pool=[3,0,4,2,1];
+ let seq=[],res=[];
+ const d=()=>shell('Urutan Algoritma','Robot sortir macet karena langkah kerjanya tertukar. Apa jadinya jika paket ditimbang sebelum diambil? Susun urutan yang benar. Klik langkah untuk menaruhnya, klik lagi di urutanmu untuk melepas.',
+ `<div class=two><div><h3>Langkah tersedia</h3>${pool.map(i=>`<button class=chip ${seq.includes(i)?'disabled':''} ${act(()=>{seq.push(i);res=[];d()})}>${C[i]}</button>`).join('')}</div>
+ <div><h3>Urutan kerja robot</h3>${[0,1,2,3,4].map(p=>`<div class="slot ${res[p]===undefined?'':res[p]?'ok':'bad'}">${p+1}. ${seq[p]!==undefined?`<button class="chip in" ${act(()=>{seq.splice(p,1);res=[];d()})}>${C[seq[p]]}</button>`:'<i>kosong</i>'}${res[p]===undefined?'':res[p]?' ✔':' ✘'}</div>`).join('')}
+ <button class="btn y" ${act(chk)}>Periksa Urutan</button></div></div>`);
+ const chk=()=>{if(seq.length<5)return fb('Isi dulu kelima slot, baru periksa.','i');res=seq.map((v,p)=>v===p);d();
+  if(res.every(x=>x))win('Urutan tepat! Algoritma adalah langkah berurutan yang tiap langkahnya bergantung pada langkah sebelumnya.');
+  else miss('Slot bertanda ✘ belum tepat. Tanyakan: langkah mana yang harus selesai lebih dulu?')};
+ d();fb('Susun 5 langkah dengan cara klik.','i')}
+
+/* ---------- Level 2: tipe data ---------- */
+function L2(){
+ const T=[['I','Integer','bilangan bulat'],['F','Float','bilangan desimal'],['S','String','teks'],['B','Boolean','benar atau salah']];
+ const V=[['jumlah_produk = 120','I','120 adalah bilangan bulat.'],['suhu_mesin = 72.5','F','Ada titik desimal, jadi Float.'],['nama_operator = "Sari"','S','Diapit tanda kutip, jadi String.'],['mesin_hidup = True','B','Hanya bernilai True atau False, jadi Boolean.'],['kode_batch = "0045"','S','Isinya angka, tetapi diapit tanda kutip, jadi tetap String.']];
+ let sel=-1,got=[];
+ const d=()=>shell('Tipe Data','Sensor pabrik mengirim lima data. Pasangkan tiap data dengan tipe datanya agar program tidak salah hitung. Klik data di kiri, lalu klik tipenya di kanan.',
+ `<div class=two><div>${V.map((v,i)=>`<button class="chip ${got.includes(i)?'ok':''} ${sel==i?'sel':''}" ${got.includes(i)?'disabled':''} ${act(()=>{sel=i;d()})}><code>${v[0]}</code></button>`).join('')}</div>
+ <div>${T.map(t=>`<button class=chip ${act(()=>pick(t[0]))}><b>${t[1]}</b> (${t[2]})</button>`).join('')}</div></div>`);
+ const pick=k=>{if(sel<0)return fb('Pilih salah satu data di kolom kiri dulu.','i');const v=V[sel];
+  if(v[1]===k){got.push(sel);sel=-1;d();got.length==5?win(v[2]+' Semua data sudah cocok!'):(snd(1),fb('Benar! '+v[2],'ok'))}
+  else miss('Belum cocok. Periksa nilainya: ada tanda kutip, titik desimal, atau True/False?')};
+ d();fb('Pilih data, lalu pilih tipenya.','i')}
+
+/* ---------- mesin kuis ---------- */
+function quiz(Q,next,t,k){
+ let i=0;
+ const d=()=>{const q=Q[i];shell(t,k,`<p class=cnt>Soal ${i+1} dari ${Q.length}</p><p><b>${q.q}</b></p>${q.c?`<pre>${q.c}</pre>`:''}<div class=opts>${q.o.map((o,j)=>`<button class=chip id=o${j} ${act(()=>ch(j))}>${o}</button>`).join('')}</div>`)};
+ const ch=j=>{const q=Q[i],b=$('#o'+j);
+  if(j===q.a){b.classList.add('ok');document.querySelectorAll('.opts .chip').forEach(x=>x.disabled=true);
+   if(i<Q.length-1){snd(1);fb(q.w,'ok',[['Soal Berikutnya',()=>{i++;d();fb('Pilih satu jawaban.','i')}]])}else next(q.w)}
+  else{b.classList.add('bad');b.disabled=true;miss(q.h)}};
+ d();fb('Pilih satu jawaban.','i')}
+
+/* ---------- Level 3: percabangan ---------- */
+function L3(){quiz([
+ {c:'suhu = 85\nif suhu &gt; 80:\n    print("ALARM")\nelse:\n    print("Aman")',q:'Apa yang dicetak program ini?',o:['ALARM','Aman','ALARM lalu Aman','Tidak ada'],a:0,w:'Benar. 85 &gt; 80 bernilai benar, jadi blok if jalan dan else dilewati.',h:'Cek syaratnya: apakah 85 lebih besar dari 80?'},
+ {c:'stok = 0\nif stok &gt; 0:\n    print("Siap kirim")\nelif stok == 0:\n    print("Pesan ulang")\nelse:\n    print("Cek sensor")',q:'Apa yang dicetak program ini?',o:['Siap kirim','Pesan ulang','Cek sensor','Error'],a:1,w:'Tepat. Syarat if salah, lalu elif diperiksa: 0 == 0 benar.',h:'Telusuri dari atas. Syarat pertama salah, lanjut ke syarat berikutnya.'},
+ {c:'tekanan = 75\nif tekanan &lt; 20 ____ tekanan &gt; 60:\n    print("Berhenti")',q:'Mesin harus berhenti bila tekanan di luar rentang 20 sampai 60. Isi titik kosong.',o:['and','or','not'],a:1,w:'Tepat. Terlalu rendah ATAU terlalu tinggi. Dengan and, tidak ada angka yang memenuhi keduanya.',h:'Bisakah satu angka kurang dari 20 sekaligus lebih dari 60?'}
+],win,'Percabangan','Komputer memutuskan lewat if, elif, dan else. Baca kode dari atas seperti komputer: jalankan hanya blok yang syaratnya benar.')}
+
+/* ---------- Level 4: perulangan ---------- */
+function L4(){
+ const B=[['Maju','F'],['Putar Kanan','R'],['Putar Kiri','L'],['Ulang 2× Maju','FF'],['Ulang 4× Maju','FFFF']],D=[[1,0],[0,1],[-1,0],[0,-1]],AR=['▶','▼','◀','▲'];
+ let prog=[],busy=false,pos={x:0,y:0,d:0};
+ const d=()=>shell('Perulangan','Robot harus menjemput paket di bendera 🚩. Program dibatasi 4 blok. Bagaimana cara menghemat blok? Gunakan blok Ulang. Robot mulai menghadap kanan.',
+ `<div class=two><div><h3>Blok perintah</h3>${B.map((b,i)=>`<button class=chip style="display:inline-block;width:auto;margin:.15em" ${busy||prog.length>=4?'disabled':''} ${act(()=>{prog.push(i);d()})}>${b[0]}</button>`).join('')}
+ <h3>Programmu (${prog.length} dari 4 blok)</h3>${prog.map((p,j)=>`<button class="chip in" ${busy?'disabled':''} ${act(()=>{prog.splice(j,1);d()})}>${j+1}. ${B[p][0]}</button> `).join('')||'<i>kosong</i>'}
+ <p><button class="btn y" ${busy?'disabled':''} ${act(run)}>▶ Jalankan</button> <button class=btn ${busy?'disabled':''} ${act(()=>{prog=[];d()})}>Hapus Semua</button></p></div>
+ <div><div class=grid>${[0,1,2].map(y=>[0,1,2,3,4].map(x=>`<div class="cell ${x==4&&y==2?'goal':''}">${pos.x==x&&pos.y==y?`<b class=rb>🤖${AR[pos.d]}</b>`:x==4&&y==2?'🚩':''}</div>`).join('')).join('')}</div></div></div>`);
+ const run=async()=>{if(!prog.length)return fb('Tambahkan blok perintah dulu.','i');busy=true;pos={x:0,y:0,d:0};d();fb('Robot berjalan...','i');
+  const steps=prog.flatMap(i=>B[i][1].split(''));let bad=false;
+  for(const s of steps){await new Promise(r=>setTimeout(r,450));if(st.scr!='lv'||st.lv!=3)return;
+   if(s=='R')pos.d=(pos.d+1)%4;else if(s=='L')pos.d=(pos.d+3)%4;
+   else{const nx=pos.x+D[pos.d][0],ny=pos.y+D[pos.d][1];if(nx<0||ny<0||nx>4||ny>2){bad=true;break}pos.x=nx;pos.y=ny}
+   d()}
+  busy=false;d();
+  if(pos.x==4&&pos.y==2)win(`Robot tiba di bendera hanya dengan ${prog.length} blok. Perulangan membuat program lebih singkat.`);
+  else{miss(bad?'Robot menabrak tepi area. Periksa arah putarannya.':`Robot berhenti di kolom ${pos.x+1}, baris ${pos.y+1}. Bendera ada di kolom 5, baris 3.`);pos={x:0,y:0,d:0};d()}};
+ d();fb('Susun program lalu tekan Jalankan.','i')}
+
+/* ---------- Level 5: kecerdasan artifisial ---------- */
+function L5(){
+ const G=[8,12,15,18,22,25,28,31,35,38,45],X=[33,42,48,52,55,60,66,70,75,82,90];let th=50;
+ const dot=(v,c)=>{const w=c=='g'?v>th:v<=th;return `<i class="dot ${c} ${w?'x':''}" style="left:${v}%">${w?'✕':''}</i>`};
+ const pl=()=>{const ok=G.filter(v=>v<=th).length+X.filter(v=>v>th).length,acc=Math.round(ok/22*100);
+  $('#pl').innerHTML=`<div class=lbl>Produk baik (hijau)</div><div class=tr>${G.map(v=>dot(v,'g')).join('')}</div><div class=lbl>Produk cacat (merah)</div><div class=tr>${X.map(v=>dot(v,'d')).join('')}</div><div class=thl style="left:${th}%"></div><div class=ax><span>0</span><span>skor cacat</span><span>100</span></div>`;
+  $('#sc').innerHTML=`Batas: ${th} &nbsp;|&nbsp; Tebakan benar ${ok} dari 22 &nbsp;|&nbsp; Akurasi ${acc}% (target minimal 90%)`;return acc};
+ shell('Kecerdasan Artifisial','Robot belajar dari 22 contoh produk. Setiap produk punya skor cacat 0 sampai 100. Skor di kanan garis kuning ditebak “Cacat”. Geser batas sampai akurasi minimal 90%. Tanda ✕ menunjukkan tebakan yang salah.',
+ `<div id=pl class=plot></div><input type=range min=0 max=100 value=50 aria-label="Batas keputusan" oninput="TH(this.value)"><p class=stat id=sc></p><button class="btn y" ${act(()=>{const a=pl();
+  if(a<90)fb(`Akurasi baru ${a}%. Geser batas ke area tempat hijau dan merah mulai terpisah.`,'bad');
+  else quiz(Q5,win,'Kecerdasan Artifisial: Uji Pemahaman','Modelmu sudah akurat. Sekarang periksa apakah kamu memahami cara kerja dan batasan AI.')})}>Latih dan Uji Model</button>`);
+ window.TH=v=>{th=+v;pl()};pl();fb('Geser slider untuk melatih model.','i');
+ const Q5=[{q:'Mengapa akurasi tidak bisa mencapai 100% pada data ini?',o:['Ada produk baik dan cacat yang skornya saling tumpang tindih','Slider-nya rusak','Robot kurang rajin belajar'],a:0,w:'Benar. Dua produk selalu tertebak salah. Solusinya menambah fitur (misalnya warna atau berat) atau menambah data latih.',h:'Lihat titik ✕ di grafik. Skor hijau dan merah ada yang berdekatan.'},
+ {q:'Model dilatih hanya dengan produk pabrik A, lalu dipakai di pabrik B yang bahannya berbeda. Apa risikonya?',o:['Pasti tetap akurat','Sering salah karena data latih tidak mewakili kondisi baru','Model belajar sendiri tanpa data'],a:1,w:'Tepat. Kualitas AI bergantung pada data latihnya. Data yang bias menghasilkan keputusan yang bias.',h:'Ingat, AI hanya belajar dari contoh yang diberikan kepadanya.'}]}
+
+/* ---------- layar ---------- */
+const LV=[L1,L2,L3,L4,L5];
+const SC={
+ home(){$('#mn').innerHTML=`<div class=hero><div><h1>Misi Robo-Teknisi</h1><h2>Koding dan Kecerdasan Artifisial</h2><p class=q>Bisakah robot memutuskan sendiri mana produk yang cacat?</p><p>Kamu bertugas sebagai teknisi di pabrik cerdas. Selesaikan 5 misi koding untuk menghidupkan robot sortir, lalu ajari robot itu mengenali produk cacat. Siap, teman-teman teknisi?</p><p><button class="btn y big" ${act(()=>start(0))}>Mulai Misi</button> <button class=btn ${act(()=>go('menu'))}>Peta Misi</button> <button class=btn ${act(guide)}>Panduan</button></p></div><div class=bot aria-hidden=true>🤖</div></div>`},
+ menu(){$('#mn').innerHTML=`<h2>Peta Misi</h2><p>Selesaikan misi secara berurutan. Misi yang sudah selesai boleh diulang untuk memperbaiki skor.</p><div class=menu>${NAMES.map((n,i)=>{const o=i==0||st.done[i-1];return `<button class="mc ${st.done[i]?'dn':''}" ${o?'':'disabled'} ${act(()=>start(i))}><b>Misi ${i+1}</b><span>${n}</span><em>${st.done[i]?'★ '+st.pts[i]+' poin':o?'Siap dimainkan':'🔒 Selesaikan misi sebelumnya'}</em></button>`}).join('')}</div>${st.done.every(x=>x)?`<p><button class="btn y" ${act(()=>go('end'))}>Lihat Hasil</button></p>`:''}`},
+ lv(){LV[st.lv]()},
+ end(){const t=total(),s=Math.max(1,Math.round(t/100));$('#mn').innerHTML=`<h2>Evaluasi: Misi Selesai!</h2><div class=panel><p class=stat>Skor akhir ${t} dari 500 &nbsp; ${'★'.repeat(s)}${'☆'.repeat(5-s)}</p><p>${t>=450?'Luar biasa! Kamu siap jadi teknisi pabrik cerdas.':t>=300?'Bagus! Ulangi misi yang skornya belum penuh untuk jadi lebih mahir.':'Terus berlatih! Ulangi misi dari menu untuk meningkatkan skormu.'}</p></div><div class=panel><h3>Yang sudah kamu pelajari</h3><ul><li><b>Algoritma:</b> langkah kerja harus berurutan dan logis.</li><li><b>Tipe data:</b> Integer, Float, String, dan Boolean punya fungsi berbeda.</li><li><b>Percabangan:</b> if, elif, else memilih tindakan sesuai kondisi.</li><li><b>Perulangan:</b> pekerjaan berulang dibuat ringkas dengan loop.</li><li><b>Kecerdasan artifisial:</b> model belajar dari data, dan kualitas data menentukan hasilnya.</li></ul></div><p><button class=btn ${act(()=>{st.pts=[0,0,0,0,0];st.done=[0,0,0,0,0];go('menu')})}>Main Lagi</button> <button class="btn y" ${act(()=>go('credit'))}>Informasi Kreator</button></p>`},
+ credit(){$('#mn').innerHTML=`<h2>Informasi Kreator</h2><div class=panel><p><b>Kreator:</b> [Tulis nama kreator, boleh disertai gelar]</p><p><b>Instansi/Sekolah:</b> [Tulis nama instansi atau sekolah]</p><p><b>Aset:</b> Seluruh visual dibuat dengan kode HTML/CSS dan emoji bawaan perangkat. Tidak ada aset eksternal. Rancangan dan kode gim ini dibuat dengan bantuan AI (Claude).</p></div><p><button class=btn ${act(()=>go('end'))}>Kembali ke Hasil</button> <button class="btn y" ${act(()=>go('home'))}>Laman Muka</button></p>`}
+};
+fit();go('home');
+</script>
+</body>
+</html>
